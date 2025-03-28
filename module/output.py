@@ -10,7 +10,7 @@ iftxt = bctxt + "[info]" + retxt
 nftxt = retxt + "[normal]" + retxt
  
 errc = [
-    "g-0 you did nothing wrong, but heres an error because im borded and why not",
+    "g-0 special error",
     "g-1 connection to drone failed [func: ckcon()]",
     "b-2 drone battery level less than 10 [func: pref()]",
     "b-3 drone battery level less than 20 [func: pref()]",
