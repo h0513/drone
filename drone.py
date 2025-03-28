@@ -2,11 +2,13 @@ import pyhula as hula
 import output as out
 import keyboard
 
-pled = {'r': 0, 'g':0, 'b': 0, 'mode': 1}
-rled = {'r': 255, 'g':0, 'b': 0, 'mode': 1}
-gled = {'r': 0, 'g':255, 'b': 0, 'mode': 1}
-bled = {'r': 0, 'g':0, 'b': 255, 'mode': 1}
-wled = {'r': 255, 'g':255, 'b': 255, 'mode': 1}
+led = [
+    {'r': 0, 'g': 0, 'b': 0, 'mode': 1},
+    {'r': 255, 'g': 0, 'b': 0, 'mode': 1},
+    {'r': 0, 'g': 255, 'b': 0, 'mode': 1},
+    {'r': 0, 'g': 0, 'b': 255, 'mode': 1},
+    {'r': 255, 'g': 255, 'b': 255, 'mode': 1}
+]
 ppref = False
 
 def start(vb=True):
@@ -68,84 +70,84 @@ def pref(ins=True, vb=True):
         if suc: return 0
         else: return 1
 
-def mf(distance, vb=False, led=pled):
+def mf(distance=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("moving " + str(distance) + "cm forwards with led " + led)
         api.single_fly_forward(distance, led)
         if vb: out.suc("completed " + str(distance) + "cm forwards motion with led " + led)
     else: out.err(1)
 
-def mb(distance, vb=False, led=pled):
+def mb(distance=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("moving " + str(distance) + "cm backwards with led " + led)
         api.single_fly_back(distance, led)
         if vb: out.suc("completed " + str(distance) + "cm backwards motion with led " + led)
     else: out.err(1)
 
-def ml(distance, vb=False, led=pled):
+def ml(distance=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("moving " + str(distance) + "cm left with led " + led)
         api.single_fly_left(distance, led)
         if vb: out.suc("completed " + str(distance) + "cm left motion with led " + led)
     else: out.err(1)
 
-def mr(distance, vb=False, led=pled):
+def mr(distance=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("moving " + str(distance) + "cm right with led " + led)
         api.single_fly_right(distance, led)
         if vb: out.suc("completed " + str(distance) + "cm right motion with led " + led)
     else: out.err(1)
 
-def vt(vb=False, led=pled):
+def vt(vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("taking off with led " + led)
         api.single_fly_takeoff(led)
         if vb: out.suc("completed takeoff with led " + led)
     else: out.err(1)
 
-def vl(vb=False, led=pled):
+def vl(vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("landing with led " + led)
         api.single_fly_touchdown(led)
         if vb: out.suc("completed landing with led " + led)
     else: out.err(1)
 
-def vh(time, vb=False, led=pled):
+def vh(time=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("hovering for " + str(time) + "s with led " + led)
         api.single_fly_hover_flight(time, led)
         if vb: out.suc("hovered for " + str(time) + "s with led " + led)
     else: out.err(1)
 
-def vu(distance, vb=False, led=pled):
+def vu(distance=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("moving " + str(distance) + "cm up with led " + led)
         api.single_fly_up(distance, led)
         if vb: out.suc("completed " + str(distance) + "cm up motion with led " + led)
     else: out.err(1)
 
-def vd(distance, vb=False, led=pled):
+def vd(distance=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("moving " + str(distance) + "cm down with led " + led)
         api.single_fly_down(distance, led)
         if vb: out.suc("completed " + str(distance) + "cm down motion with led " + led)
     else: out.err(1)
 
-def rl(angle, vb=False, led=pled):
+def rl(angle=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("turning " + str(angle) + " degree left with led " + led)
         api.single_fly_turnleft(angle, led)
         if vb: out.suc("completed " + str(angle) + " degree left turn with led " + led)
     else: out.err(1)
 
-def rr(angle, vb=False, led=pled):
+def rr(angle=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("turning " + str(angle) + " degree right with led " + led)
         api.single_fly_turnright(angle, led)
         if vb: out.suc("completed " + str(angle) + " degree right turn with led " + led)
     else: out.err(1)
 
-def cf(radius, vb=False, led=pled):
+def cf(radius=0, vb=False, led=led[0]):
     if ckcon():
         if vb: out.inf("flying " + str(radius) + "cm radius circular path with led " + led)
         api.single_fly_radius_around(radius, led)
@@ -177,12 +179,26 @@ def qrr(id=0, md=0, vb=False):
         return suc
     else: out.err(1)
 
-def qrt(t, id=0, md=0, vb=False):
+def qrt(t=0, id=0, md=0, vb=False):
     if ckcon():
         if vb: out.inf("tracking qr " + str(id) + " for " + str(t) + "s")
         suc = api.single_fly_track_Qrcode(id, t)
         if suc: out.suc("completed tracking of qr " + str(id) + " for " + str(t) + "s")
         else: out.err(9)
+    else: out.err(1)
+
+def ll(pset=0, t=0, r=0, g=0, b=0, md=1, vb=False):
+    if ckcon():
+        if not pset == -1:
+            if vb: out.inf("setting led color to " + str(r) + ", " + str(g) + ", " + str(b) + " for " + str(t) + "s")
+            suc = api.single_fly_lamplight(led[pset]["r"], led[pset]["g"], led[pset]["b"], t, md)
+            if suc: out.suc("completed setting led color to " + str(r) + ", " + str(g) + ", " + str(b) + " for " + str(t) + "s")
+            else: out.err(10)
+        else:
+            if vb: out.inf("setting led color to " + str(r) + ", " + str(g) + ", " + str(b) + " for " + str(t) + "s")
+            suc = api.single_fly_lamplight(r, g, b, t, md)
+            if suc: out.suc("completed setting led color to " + str(r) + ", " + str(g) + ", " + str(b) + " for " + str(t) + "s")
+            else: out.err(10)
     else: out.err(1)
 
 def fly(func, sf=True, vb=False):
