@@ -39,21 +39,21 @@ def ckcon(ins=False, vb=False):
     if not "api" in globals():
         if vb: out.err(5)
         connect()
-    if not "pckcon" in globals():
+    if not "pcon" in globals():
         if vb: out.err(6)
-        global pckcon
-        pckcon = False
-        if vb: out.suc("completed pckcon variable global definition")
-    if pckcon == True and not ins:
+        global pcon
+        pcon = False
+        if vb: out.suc("completed pcon variable global definition")
+    if pcon == True and not ins:
         if vb: out.suc("completed drone connection")
         return 1
     if not api.connect():
         if vb: out.err(1)
-        pckcon = False
+        pcon = False
         return 0
     else:
         if vb: out.suc("drone successfully connected")
-        pckcon = True
+        pcon = True
         return 1
 
 def pref(ins=True, vb=True):
@@ -73,32 +73,32 @@ def pref(ins=True, vb=True):
         if suc: return 0
         else: return 1
 
-def mf(distance=0, vb=False, led=led[0]):
+def mf(ds=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"moving {distance}cm forwards with led {led}")
-        api.single_fly_forward(distance, led)
-        if vb: out.suc(f"completed {distance}cm forwards motion with led {led}")
+        if vb: out.inf(f"moving {ds}cm forwards with led {led}")
+        api.single_fly_forward(ds, led)
+        if vb: out.suc(f"completed {ds}cm forwards motion with led {led}")
     else: out.err(1)
 
-def mb(distance=0, vb=False, led=led[0]):
+def mb(ds=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"moving {distance}cm backwards with led {led}")
-        api.single_fly_back(distance, led)
-        if vb: out.suc(f"completed {distance}cm backwards motion with led {led}")
+        if vb: out.inf(f"moving {ds}cm backwards with led {led}")
+        api.single_fly_back(ds, led)
+        if vb: out.suc(f"completed {ds}cm backwards motion with led {led}")
     else: out.err(1)
 
-def ml(distance=0, vb=False, led=led[0]):
+def ml(ds=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"moving {distance}cm left with led {led}")
-        api.single_fly_left(distance, led)
-        if vb: out.suc(f"completed {distance}cm left motion with led {led}")
+        if vb: out.inf(f"moving {ds}cm left with led {led}")
+        api.single_fly_left(ds, led)
+        if vb: out.suc(f"completed {ds}cm left motion with led {led}")
     else: out.err(1)
 
-def mr(distance=0, vb=False, led=led[0]):
+def mr(ds=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"moving {distance}cm right with led {led}")
-        api.single_fly_right(distance, led)
-        if vb: out.suc(f"completed {distance}cm right motion with led {led}")
+        if vb: out.inf(f"moving {ds}cm right with led {led}")
+        api.single_fly_right(ds, led)
+        if vb: out.suc(f"completed {ds}cm right motion with led {led}")
     else: out.err(1)
 
 def vt(vb=False, led=led[0]):
@@ -124,45 +124,45 @@ def vh(time=0, vb=False, led=led[0]):
         if vb: out.suc(f"hovered for {time}s with led {led}")
     else: out.err(1)
 
-def vu(distance=0, vb=False, led=led[0]):
+def vu(ds=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"moving {distance}cm up with led {led}")
-        api.single_fly_up(distance, led)
-        if vb: out.suc(f"completed {distance}cm up motion with led {led}")
+        if vb: out.inf(f"moving {ds}cm up with led {led}")
+        api.single_fly_up(ds, led)
+        if vb: out.suc(f"completed {ds}cm up motion with led {led}")
     else: out.err(1)
 
-def vd(distance=0, vb=False, led=led[0]):
+def vd(ds=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"moving {distance}cm down with led {led}")
-        api.single_fly_down(distance, led)
-        if vb: out.suc(f"completed {distance}cm down motion with led {led}")
+        if vb: out.inf(f"moving {ds}cm down with led {led}")
+        api.single_fly_down(ds, led)
+        if vb: out.suc(f"completed {ds}cm down motion with led {led}")
     else: out.err(1)
 
-def rl(angle=0, vb=False, led=led[0]):
+def rl(an=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"turning {angle} degree left with led {led}")
-        api.single_fly_turnleft(angle, led)
-        if vb: out.suc(f"completed {angle} degree left turn with led {led}")
+        if vb: out.inf(f"turning {an} degree left with led {led}")
+        api.single_fly_turnleft(an, led)
+        if vb: out.suc(f"completed {an} degree left turn with led {led}")
     else: out.err(1)
 
-def rr(angle=0, vb=False, led=led[0]):
+def rr(an=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"turning {angle} degree right with led {led}")
-        api.single_fly_turnright(angle, led)
-        if vb: out.suc(f"completed {angle} degree right turn with led {led}")
+        if vb: out.inf(f"turning {an} degree right with led {led}")
+        api.single_fly_turnright(an, led)
+        if vb: out.suc(f"completed {an} degree right turn with led {led}")
     else: out.err(1)
 
-def cf(radius=0, vb=False, led=led[0]):
+def cf(r=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"flying {radius}cm radius circular path with led {led}")
-        api.single_fly_radius_around(radius, led)
-        if vb: out.suc(f"completed {radius}cm radius circular path with led {led}")
+        if vb: out.inf(f"flying {r}cm r circular path with led {led}")
+        api.single_fly_radius_around(r, led)
+        if vb: out.suc(f"completed {r}cm r circular path with led {led}")
     else: out.err(1)
 
 def dh(vb=False):
     if ckcon():
         if vb: out.inf("getting drone tof height")
-        h = api.get_plane_distance()
+        h = api.get_plane_ds()
         if vb: out.suc(f"completed drone tof height detection [output: {h}]")
         return h
     else: out.err(1)
