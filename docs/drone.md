@@ -1,3 +1,4 @@
+```python
 # variables
 vb # verbose output
 ins # insistent checking
@@ -50,3 +51,4 @@ ll(pset=0, t=0, r=0, g=0, b=0, md=1, vb=False) # lamp light
 
 # custon execution
 fly(func, sf=True, vb=False)
+```
