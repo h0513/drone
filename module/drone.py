@@ -117,11 +117,11 @@ def vl(vb=False, led=led[0]):
         if vb: out.suc(f"completed landing with led {led}")
     else: out.err(1)
 
-def vh(time=0, vb=False, led=led[0]):
+def vh(t=0, vb=False, led=led[0]):
     if ckcon():
-        if vb: out.inf(f"hovering for {time}s with led {led}")
-        api.single_fly_hover_flight(time, led)
-        if vb: out.suc(f"hovered for {time}s with led {led}")
+        if vb: out.inf(f"hovering for {t}s with led {led}")
+        api.single_fly_hover_flight(t, led)
+        if vb: out.suc(f"hovered for {t}s with led {led}")
     else: out.err(1)
 
 def vu(ds=0, vb=False, led=led[0]):
