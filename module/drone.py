@@ -19,8 +19,8 @@ def start(vb=True):
     out.inf("starting new drone session")
     if vb: out.inf("starting drone")
     suc = True
-    if not connect(): suc = False
-    if not pref(): suc = False
+    if not connect(vb): suc = False
+    if not pref(True, vb): suc = False
     if vb and suc: out.suc("completed drone startup")
     if vb and not suc: out.err(3)
     keyboard.add_hotkey("alt+f3", lambda: vl())
@@ -62,17 +62,17 @@ def pref(ins=True, vb=True):
         return 0
     if vb: out.inf("conducting preflight check")
     if not ins and ppref:
-        if vb: out.suc("completed preflight check")
+        if vb: out.suc("completed preflight check using ppref")
         return 0
     else:
         bat = api.get_battery()
-        suc = True
+        suc = False
         if (bat < 10): out.err(2)
         elif (bat < 20): out.err(3)
-        else: suc = False
+        else: suc = True
         if vb: out.suc(f"preflight check completed [battery: {bat}]")
-        if suc: return 0
-        else: return 1
+        if suc: return 1
+        else: return 0
 
 def mf(ds=0, vb=False, led=led[0]):
     if ckcon():
