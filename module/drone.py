@@ -23,7 +23,7 @@ def start(vb=True):
     if not pref(True, vb): suc = False
     if vb and suc: out.suc("completed drone startup")
     if vb and not suc: out.err(3)
-    keyboard.add_hotkey("alt+f3", lambda: vl())
+    keyboard.add_hotkey("ctrl+space", lambda: vl())
     return 0
 
 def connect(vb=True):
