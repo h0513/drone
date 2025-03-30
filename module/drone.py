@@ -3,14 +3,14 @@ import output as out
 import keyboard
 
 led = [
-    {'r': 0, 'g': 0, 'b': 0, 'mode': 1}, # null
-    {'r': 255, 'g': 0, 'b': 0, 'mode': 1}, # red
-    {'r': 255, 'g': 255, 'b': 0, 'mode': 1}, # yellow
-    {'r': 0, 'g': 255, 'b': 0, 'mode': 1}, # green
-    {'r': 0, 'g': 0, 'b': 255, 'mode': 1}, # blue
-    {'r': 0, 'g': 255, 'b': 255, 'mode': 1}, # cyan
-    {'r': 255, 'g': 0, 'b': 255, 'mode': 1}, # magenta
-    {'r': 255, 'g': 255, 'b': 255, 'mode': 1} # white
+    {'g': 0, 'b': 0, 'r': 0, 'mode': 1}, # null
+    {'g': 0, 'b': 0, 'r': 255, 'mode': 1}, # red
+    {'g': 255, 'b': 0, 'r': 255, 'mode': 1}, # yellow
+    {'g': 255, 'b': 0, 'r': 0, 'mode': 1}, # green
+    {'g': 0, 'b': 255, 'r': 0, 'mode': 1}, # blue
+    {'g': 255, 'b': 255, 'r': 0, 'mode': 1}, # cyan
+    {'g': 0, 'b': 255, 'r': 255, 'mode': 1}, # magenta
+    {'g': 255, 'b': 255, 'r': 255, 'mode': 1} # white
 ]
 ppref = False
 
