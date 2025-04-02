@@ -175,9 +175,9 @@ def qrt(t=0, id=0, md=0, vb=False):
         if suc: out.suc(f"completed tracking of qr {id} for {t}s")
         else: out.err(9)
 
-def ll(pset=0, t=0, r=0, g=0, b=0, md=1, vb=False):
+def ll(pset="-1", t=0, r=0, g=0, b=0, md=1, vb=False):
     if ckcon():
-        if not pset == -1:
+        if not pset == "-1":
             if vb: out.inf(f"setting led color to {led[pset]} for {t}s")
             suc = api.single_fly_lamplight(led[pset]["r"], led[pset]["g"], led[pset]["b"], t, md)
             if suc && vb: out.suc(f"completed setting led color to {led[pset]} for {t}s")
