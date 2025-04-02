@@ -180,12 +180,12 @@ def ll(pset=0, t=0, r=0, g=0, b=0, md=1, vb=False):
         if not pset == -1:
             if vb: out.inf(f"setting led color to {led[pset]} for {t}s")
             suc = api.single_fly_lamplight(led[pset]["r"], led[pset]["g"], led[pset]["b"], t, md)
-            if suc: out.suc(f"completed setting led color to {led[pset]} for {t}s")
+            if suc && vb: out.suc(f"completed setting led color to {led[pset]} for {t}s")
             else: out.err(10)
         else:
             if vb: out.inf(f"setting led color to r: {r}, g: {g}, b: {b} for {t}s")
             suc = api.single_fly_lamplight(r, g, b, t, md)
-            if suc: out.suc(f"completed setting led color to r: {r}, g: {g}, b: {b} for {t}s")
+            if suc && vb: out.suc(f"completed setting led color to r: {r}, g: {g}, b: {b} for {t}s")
             else: out.err(10)
 
 def fly(func, sf=True, vb=False):
