@@ -2,7 +2,6 @@ import pyhula as hula
 import output as out
 import video as vid
 import keyboard
-from tflite_detector import tflite_detector as tfd
 
 led = {
     "n": {'g': 0, 'b': 0, 'r': 0, 'mode': 1}, # null
@@ -212,20 +211,11 @@ def vc(vb=False):
         v.close()
         if vb: out.suc("completed video stream closing")
 
-def vo(vb=False):
+def vs(vb=False):
     if ckcon():
         if vb: out.inf("starting video stream")
         v.vo()
         if vb: out.suc("completed video")
-        if not "pv" in globals():
-            global pv
-            pv = True
-
-def ckv(vb=True):
-    if ckcon():
-        if vb: out.inf("checking video status")
-        if pv: out.err()
-        if vb: out.suc("completed video status check")
 
 def vsr(file, vb=False):
     if ckcon():
@@ -239,11 +229,12 @@ def vsrc(vb=False):
         v.srec()
         if vb: out.suc("completed recoding stoppage")
 
-def vis(vb=False):
+def vrs(vb=False):
     if ckcon():
         if vb: out.inf("getting video resolution")
-        v.vr()
+        vr = v.vrs()
         if vb: out.suc("completed video resolution retrieval")
+        return vr
 
 def vsl(vb=False):
     if ckcon():
@@ -256,9 +247,3 @@ def vgv(vb=False):
         if vb: out.inf("getting video frame")
         v.gv()
         if vb: out.suc("completed getting video frame")
-
-def tfd(modal, label, vb=False):
-    vi()
-    global dc
-    dc = tfd(modal, label)
-    vo()
