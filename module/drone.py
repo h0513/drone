@@ -1,6 +1,8 @@
 import pyhula as hula
 import output as out
+import video as vid
 import keyboard
+from tflite_detector import tflite_detector as tfd
 
 led = {
     "n": {'g': 0, 'b': 0, 'r': 0, 'mode': 1}, # null
@@ -12,7 +14,7 @@ led = {
     "y": {'g': 0, 'b': 255, 'r': 255, 'mode': 1}, # yellow
     "w": {'g': 255, 'b': 255, 'r': 255, 'mode': 1} # white
 }
-ppref = False 
+ppref = False
 
 def start(vb=True):
     print()
@@ -71,6 +73,7 @@ def pref(ins=True, vb=True):
         elif (bat < 20): out.err(3)
         else: suc = True
         if vb: out.suc(f"preflight check completed [battery: {bat}]")
+        ppref = True
         if suc: return 1
         else: return 0
 
@@ -180,12 +183,12 @@ def ll(pset="-1", t=0, r=0, g=0, b=0, md=1, vb=False):
         if not pset == "-1":
             if vb: out.inf(f"setting led color to {led[pset]} for {t}s")
             suc = api.single_fly_lamplight(led[pset]["r"], led[pset]["g"], led[pset]["b"], t, md)
-            if suc && vb: out.suc(f"completed setting led color to {led[pset]} for {t}s")
+            if suc and vb: out.suc(f"completed setting led color to {led[pset]} for {t}s")
             else: out.err(10)
         else:
             if vb: out.inf(f"setting led color to r: {r}, g: {g}, b: {b} for {t}s")
             suc = api.single_fly_lamplight(r, g, b, t, md)
-            if suc && vb: out.suc(f"completed setting led color to r: {r}, g: {g}, b: {b} for {t}s")
+            if suc and vb: out.suc(f"completed setting led color to r: {r}, g: {g}, b: {b} for {t}s")
             else: out.err(10)
 
 def fly(func, sf=True, vb=False):
@@ -195,3 +198,67 @@ def fly(func, sf=True, vb=False):
         if vb: out.inf("executing", func)
         exec(func)
         if vb: out.inf("completed", func)
+
+def vi(vb=False):
+    if ckcon():
+        if vb: out.inf("initalising video")
+        global v
+        v = vid.vid(api=api)
+        if vb: out.suc("completed video initalisation")
+
+def vc(vb=False):
+    if ckcon():
+        if vb: out.inf("closing video stream")
+        v.close()
+        if vb: out.suc("completed video stream closing")
+
+def vo(vb=False):
+    if ckcon():
+        if vb: out.inf("starting video stream")
+        v.vo()
+        if vb: out.suc("completed video")
+        if not "pv" in globals():
+            global pv
+            pv = True
+
+def ckv(vb=True):
+    if ckcon():
+        if vb: out.inf("checking video status")
+        if pv: out.err()
+        if vb: out.suc("completed video status check")
+
+def vsr(file, vb=False):
+    if ckcon():
+        if vb: out.inf("storing video recoding")
+        v.sr(file)
+        if vb: out.suc("completed video storing")
+
+def vsrc(vb=False):
+    if ckcon():
+        if vb: out.inf("stoping recoding")
+        v.srec()
+        if vb: out.suc("completed recoding stoppage")
+
+def vis(vb=False):
+    if ckcon():
+        if vb: out.inf("getting video resolution")
+        v.vr()
+        if vb: out.suc("completed video resolution retrieval")
+
+def vsl(vb=False):
+    if ckcon():
+        if vb: out.inf("stoping live display")
+        v.sl()
+        if vb: out.suc("completed live display stoppage")
+
+def vgv(vb=False):
+    if ckcon():
+        if vb: out.inf("getting video frame")
+        v.gv()
+        if vb: out.suc("completed getting video frame")
+
+def tfd(modal, label, vb=False):
+    vi()
+    global dc
+    dc = tfd(modal, label)
+    vo()
