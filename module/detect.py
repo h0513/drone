@@ -93,4 +93,4 @@ class tflite_detector:
                         highest_score_obj = current_detected_object
         else:
             cv2.putText(frame_cv2, "tflite logo detection", (self.vid_width -200, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0) , 1)
-        return highest_score_obj, frame_cv2
+        return highest_score_obj, frame_cv2 
