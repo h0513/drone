@@ -72,7 +72,7 @@ class Drone:
     def take_photo(self, filename: str) -> None:
         """
         Take a photo and save it to a file.
-
+from celery.contrib import rdb; rdb.set_trace()
         Parameters:
         filename (str): The filename to save the photo as.
         """
@@ -110,4 +110,3 @@ class Drone:
         z (float): Z-axis position.
         """
         print(f"Drone moved to coordinates ({x}, {y}, {z})")
-

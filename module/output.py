@@ -1,15 +1,15 @@
-pctxt = "\033[95m"
-rctxt = "\033[91m"
-gctxt = "\033[92m"
-bctxt = "\033[94m"
-retxt = "\033[0m"
-oftxt = pctxt + "[output]" + retxt
-eftxt = rctxt + "[error]" + retxt
-sftxt = gctxt + "[success]" + retxt
-iftxt = bctxt + "[info]" + retxt
-nftxt = retxt + "[normal]" + retxt
+pctxt: str = "\033[95m"
+rctxt: str = "\033[91m"
+gctxt: str = "\033[92m"
+bctxt: str = "\033[94m"
+retxt: str = "\033[0m"
+oftxt: str = pctxt + "[output]" + retxt
+eftxt: str = rctxt + "[error]" + retxt
+sftxt: str = gctxt + "[success]" + retxt
+iftxt: str = bctxt + "[info]" + retxt
+nftxt: str = retxt + "[normal]" + retxt
  
-errc = [
+errc: list[str] = [
     "g-0 special error",
     "g-1 connection to drone failed [func: ckcon()]",
     "b-2 drone battery level less than 10 [func: pref()]",
@@ -22,20 +22,20 @@ errc = [
     "c-9 qrcode tracking failed [func: qrt()]"
 ]
  
-def out(info):
+def out(info: str):
     print(oftxt, info)
  
-def err(code, info="auto"):
+def err(code: int, info="auto"):
     if info == "auto":
         print(eftxt, errc[code])
     else:
         print(eftxt, "SC-" + str(code) + ":", info)
  
-def suc(info):
+def suc(info: str):
     print(sftxt, info)
  
-def inf(info):
+def inf(info: str):
     print(iftxt, info)
  
-def nor(info):
+def nor(info: str):
     print(nftxt, info)
