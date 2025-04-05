@@ -1,112 +1,143 @@
-class Drone:
+from collections import namedtuple
+from types import UnionType
+from typing import Optional, TypedDict, Literal, TypeAlias
+import pyhula as hula
+
+from typing import TypedDict, Literal, TypeAlias, Union
+
+class Led(TypedDict):
+    r: int
+    b: int
+    g: int
+    mode: Literal[1, 2, 4, 16, 32]
+
+LedT: TypeAlias = Union[Led, Literal[0]]
+
+class userAPI:
     """
     A class representing a programmable drone with various capabilities like flying,
     camera usage, LED control, and interaction with tags and QR codes.
     """
 
     def __init__(self):
-        """Initialize the drone."""
-        print("Drone initialized")
+        self.api = hula.UserApi()
 
-    def takeoff(self) -> None:
-        """Command the drone to take off."""
-        print("Drone took off")
+    def connect(self, server_ip: Optional[str] = None):
+        '''
+        connects to the drone
+        '''
+        self.api.connect(server_ip)
+    def single_fly_takeoff(self, led: LedT = 0):
+        '''
+        drone takes off
+        '''
+        self.api.single_fly_takeoff(led)
+    def single_fly_touchdown(self, led: LedT = 0):
+        '''
+        drone lands
+        '''
+        self.api.single_fly_touchdown(led)
+    def single_fly_left(self, distance: int, led: LedT = 0):
+        '''
+        flies in left direction
+        '''
+        self.api.single_fly_left(distance, led)
+    def single_fly_forward(self, distance: int, led: LedT = 0):
+        '''
+        flies in forward direction
+        '''
+        self.api.single_fly_forward(distance, led)
+    def single_fly_right(self, distance: int, led: LedT = 0):
+        '''
+        flies in right direction
+        '''
+        self.api.single_fly_right(distance, led)
+    def single_fly_back(self, distance: int, led: LedT = 0):
+        '''
+        flies in back direction
+        '''
+        self.api.single_fly_back(distance, led)
+    def single_fly_up(self, height: int, led: LedT = 0):
+        '''
+        flies in up direction
+        '''
+        self.api.single_fly_up(height, led)
+    def single_fly_down(self, height: int, led: LedT = 0):
+        '''
+        flies in down direction
+        '''
+        self.api.single_fly_down(height, led)
+    def single_fly__turnleft(self, angle: int, led: LedT = 0):
+        '''
+        turns left
+        '''
+        self.api.single_fly_turnleft(angle, led)
+    def single_fly__turnright(self, angle: int, led: LedT = 0):
+        '''
+        turns right
+        '''
+        self.api.single_fly_turnright(angle, led)
+    def single_fly__bounce(self, bounces: int, height: int, led: LedT = 0):
+        '''
+        bounces, quite anticlimatic
+        '''
+        self.api.single_fly_turnright(bounces, height, led)
+    def single_fly_straight_flight(self, x: int, y: int, z: int, led: LedT = 0):
+        '''
+        flies to that cartision coordinate
+        '''
+        self.api.single_fly_straight_flight(x, y, z, led)
+    def single_fly_radius_around(self, radius: int, led: LedT = 0):
+        '''
+        flies around a set point
+        '''
+        self.api.single_fly_radius_around(radius, led)
+    def single_fly_autogyration360(self, num, led: LedT = 0):
+        '''
+        rotates the drone 360 degress counterclockwise for num times
+        '''
+        self.api.single_fly_autogyration360(num, led)
+    def single_fly_somersault(self, direction: Literal[0, 1, 2, 3], led: LedT = 0):
+        '''
+        flips
+        '''
+        self.api.single_fly_somorsault(direction, led)
+    def single_fly_curvilinearFlight(self, x:int, y: int, z: int, direction: bool = True, led: LedT = 0):
+        '''
+        what the fish is this
+        '''
+        self.api.single_fly_curvilinearFlight(direction, x, y, z, led)
+    def single_fly_hover_flight(self, time: int, led: LedT = 0):
+        '''
+        hover at a point for a time; use instead of time.sleep
+        '''
+        self.api.single_fly_hover_flight(time, led)
+    def single_fly_barrier_aircraft(self, mode: bool):
+        '''
+        enable/disable obstacle avoidance
+        '''
+        self.api.single_fly_barrier_aircraft(mode)
+    def line_walking(self, fun_id: Literal[1], dist: int, way_color: int):
+        '''
+        fun id 0 following lines, ignoring detection
+        '''
+        self.api.single_fly_Line_walking(fun_id, dist, way_color)
+    def AiIdentifies(self, mode: int):
+        '''
+        recognises various signs
+        TODO
+        '''
+        self.api.single_flyAiIdentifies(mode)
+    def Qrcode_align(self, mode: int, qr_id: int):
 
-    def land(self) -> None:
-        """Command the drone to land."""
-        print("Drone landed")
 
-    def move(self, direction: str, duration: float) -> None:
-        """
-        Move the drone in a specified direction for a duration.
 
-        Parameters:
-        direction (str): The direction to move ('forward', 'backward', etc.).
-        duration (float): Duration to move in seconds.
-        """
-        print(f"Drone moved {direction} for {duration} seconds")
 
-    def set_led_color(self, r: int, g: int, b: int) -> None:
-        """
-        Set the LED color of the drone.
 
-        Parameters:
-        r (int): Red intensity (0–255).
-        g (int): Green intensity (0–255).
-        b (int): Blue intensity (0–255).
-        """
-        print(f"LED color set to RGB({r}, {g}, {b})")
 
-    def enable_obstacle_avoidance(self, enabled: bool) -> None:
-        """
-        Enable or disable obstacle avoidance.
 
-        Parameters:
-        enabled (bool): True to enable, False to disable.
-        """
-        print(f"Obstacle avoidance {'enabled' if enabled else 'disabled'}")
 
-    def detect_tag(self, tag_id: int) -> bool:
-        """
-        Check if a specific tag is detected.
 
-        Parameters:
-        tag_id (int): The ID of the tag to detect.
 
-        Returns:
-        bool: True if detected, False otherwise.
-        """
-        print(f"Detection checked for tag ID {tag_id}")
-        return False
 
-    def scan_qr(self) -> str:
-        """
-        Scan for a QR code.
 
-        Returns:
-        str: The data extracted from the QR code.
-        """
-        print("QR code scanned")
-        return ""
-
-    def take_photo(self, filename: str) -> None:
-        """
-        Take a photo and save it to a file.
-from celery.contrib import rdb; rdb.set_trace()
-        Parameters:
-        filename (str): The filename to save the photo as.
-        """
-        print(f"Photo taken and saved as {filename}")
-
-    def start_video_recording(self, filename: str) -> None:
-        """
-        Start recording video and save to a file.
-
-        Parameters:
-        filename (str): The filename to save the video as.
-        """
-        print(f"Video recording started, saving to {filename}")
-
-    def stop_video_recording(self) -> None:
-        """Stop video recording."""
-        print("Video recording stopped")
-
-    def follow_tag(self, tag_id: int) -> None:
-        """
-        Command the drone to follow a specific tag.
-
-        Parameters:
-        tag_id (int): The ID of the tag to follow.
-        """
-        print(f"Following tag {tag_id}")
-
-    def goto_coordinates(self, x: float, y: float, z: float) -> None:
-        """
-        Move the drone to specific 3D coordinates.
-
-        Parameters:
-        x (float): X-axis position.
-        y (float): Y-axis position.
-        z (float): Z-axis position.
-        """
-        print(f"Drone moved to coordinates ({x}, {y}, {z})")
