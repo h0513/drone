@@ -9,7 +9,7 @@ d.start()
 d.vinit()
 d.von()
 d.vrec("photo")
-d.tfinit(model=r"C:\Users\34\Desktop\python\model\model1.tflite", label=r"C:\Users\34\Desktop\python\model\label.txt")
+d.tfinit(model="path/model1.tflite", label="path/label.txt")
  
 time.sleep(2)
 for i in range(100):
@@ -21,4 +21,4 @@ for i in range(100):
  
 cv.destroyAllWindows()
 d.vstop()
-d.vc()
+d.vclose()
