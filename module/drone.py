@@ -198,7 +198,7 @@ def von(vb=False):
     v.video_mode_on()
     if vb: out.suc("completed video")
 
-def vrec(file, vb=False):
+def vrec(file="image", vb=False):
     if vb: out.inf("starting video recording")
     v.start_recording(file)
     if vb: out.suc("stored video recording")
@@ -242,6 +242,8 @@ def vdet(frame, color):
         center_y = y + h // 2
         cv2.drawContours(frame, [largest_contour], -1, (255, 0, 0), 3)
         cv2.circle(frame, (center_x, center_y), 5, (0, 255, 0), -1)
+        label = f"{color} x{center_x} y{center_y}"
+        cv2.putText(frame, label, (center_x, center_y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
         return center_x, center_y, frame
     else:
         return None, None, frame
