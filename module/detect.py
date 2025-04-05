@@ -10,7 +10,7 @@ from collections import deque
 from tflite_runtime.interpreter import Interpreter
 import output as out
 import os
- 
+
 class tflite_detector:
     def __init__(self,model="model.tflite",label="label.txt",vid_width=1280,vid_height=720):
         self.confidence_level = 0.5
@@ -20,14 +20,14 @@ class tflite_detector:
         self.model_loaded = False
         self.vid_width = vid_width
         self.vid_height = vid_height
- 
+
         if os.path.isfile(self.tf_model) and os.path.isfile(self.tf_label):
             with open(self.tf_label, "r") as f:
                 self.labels = [line.strip() for line in f.readlines()]
                 f.close()
- 
+
             print(len(self.labels))
- 
+
             self.interpreter = Interpreter(model_path=self.tf_model)
             self.interpreter.allocate_tensors()
             self.input_details, self.output_details = self.interpreter.get_input_details(), self.interpreter.get_output_details()
@@ -36,11 +36,11 @@ class tflite_detector:
             self.floating_model = self.input_details[0]['dtype'] == np.float32
             self.model_loaded = True
         else:
-            out.out("loading model failed: model file or label file not found")
- 
+            out.err(10)
+
     def get_detected_obj(self):
         return self.detected_object
- 
+
     def detect(self,frame=None):
         frame_cv2 = frame
         frame_rgb = cv2.cvtColor(frame_cv2, cv2.COLOR_BGR2RGB)
@@ -55,10 +55,10 @@ class tflite_detector:
 #           out.inf('fola')
 #       self.interpreter.set_tensor(self.input_details[0]['index'], [input_data])
         self.interpreter.set_tensor(self.input_details[0]['index'], input_data)
- 
+
         # perform inference
         self.interpreter.invoke()
- 
+
         # Get output tensor need to modify this part for dfferent type of model
         boxes = self.interpreter.get_tensor(self.output_details[0]['index'])[0]
         classes = self.interpreter.get_tensor(self.output_details[1]['index'])[0]
@@ -66,7 +66,7 @@ class tflite_detector:
 #       boxes = self.interpreter.get_tensor(self.output_details[0]['index']).squeeze()
 #       classes = self.interpreter.get_tensor(self.output_details[1]['index']).squeeze()
 #       scores = self.interpreter.get_tensor(self.output_details[2]['index']).squeeze()
- 
+
         if len(scores) > 0:
             for i in range(len(scores)):
                 if ((scores[i] > self.confidence_level) and (scores[i] <= 1.0)):
@@ -92,5 +92,5 @@ class tflite_detector:
                         highest_score = current_score
                         highest_score_obj = current_detected_object
         else:
-            cv2.putText(frame_cv2, "Detecting with tflite", (self.vid_width -200, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0) , 1)
+            cv2.putText(frame_cv2, "tflite logo detection", (self.vid_width -200, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0) , 1)
         return highest_score_obj, frame_cv2
