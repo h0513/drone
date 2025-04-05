@@ -1,8 +1,12 @@
 import pyhula as hula
 import output as out
 import video as vid
+import detect as det
 import keyboard
 from typing import Dict, Union, List
+import numpy as np
+import cv2
+
 
 led: Dict[str, Dict[str, int]] = {
     "n": {'g': 0, 'b': 0, 'r': 0, 'mode': 1}, # null
@@ -199,11 +203,11 @@ def fly(func, sf=True, vb=False):
         exec(func)
         if vb: out.inf("completed", func)
 
-def vi(vb=False):
+def vinit(vb=False):
     if ckcon():
-        if vb: out.inf("initalising video")
+        if vb: out.inf("initialising video")
         global v
-        v = vid.vid(api=api)
+        v = vid.hula_video(hula_api=api)
         if vb: out.suc("completed video initalisation")
 
 def vc(vb=False):
@@ -212,39 +216,74 @@ def vc(vb=False):
         v.close()
         if vb: out.suc("completed video stream closing")
 
-def vs(vb=False):
+def von(vb=False):
     if ckcon():
         if vb: out.inf("starting video stream")
-        v.vo()
+        v.video_mode_on()
         if vb: out.suc("completed video")
 
-def vsr(file, vb=False):
+def vrec(file, vb=False):
     if ckcon():
-        if vb: out.inf("storing video recoding")
-        v.sr(file)
-        if vb: out.suc("completed video storing")
+        if vb: out.inf("starting video recording")
+        v.start_recording(file)
+        if vb: out.suc("stored video recording")
 
-def vsrc(vb=False):
+def vstop(vb=False):
     if ckcon():
-        if vb: out.inf("stoping recoding")
-        v.srec()
-        if vb: out.suc("completed recoding stoppage")
+        if vb: out.inf("stopping video recording")
+        v.stop_recording()
+        if vb: out.suc("stopped video recording")
 
-def vrs(vb=False):
+def vsize(vb=False):
     if ckcon():
         if vb: out.inf("getting video resolution")
-        vr = v.vrs()
+        vr = v.get_image_size()
         if vb: out.suc("completed video resolution retrieval")
         return vr
 
-def vsl(vb=False):
+def vsr(vb=False):
     if ckcon():
         if vb: out.inf("stoping live display")
-        v.sl()
-        if vb: out.suc("completed live display stoppage")
+        v.stop_live()
+        if vb: out.suc("stopped live display")
 
-def vgv(vb=False):
+def vframe(vb=False):
     if ckcon():
         if vb: out.inf("getting video frame")
-        v.gv()
+        frame = v.get_video()
         if vb: out.suc("completed getting video frame")
+        return frame
+
+def vdec(frame, color):
+    colors = {
+        'blue': (np.array([100, 150, 70]), np.array([140, 255, 255])),
+        'red': (np.array([0, 90, 100]), np.array([10, 255, 255])),
+        'green': (np.array([40, 100, 100]), np.array([80, 255, 255])),
+        'yellow': (np.array([20, 100, 100]), np.array([30, 255, 255])),
+        'purple': (np.array([130, 100, 100]), np.array([160, 255, 255])),
+    }
+    if color not in colors: raise ValueError(f"Color '{color}' is not defined. Available colors: {list(colors.keys())}")
+    lower_hsv, upper_hsv = colors[color]
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    mask_color = cv2.inRange(hsv, lower_hsv, upper_hsv)
+    contours, _ = cv2.findContours(mask_color, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if contours:
+        largest_contour = max(contours, key=cv2.contourArea)
+        x, y, w, h = cv2.boundingRect(largest_contour)
+        center_x = x + w // 2
+        center_y = y + h // 2
+        cv2.drawContours(frame, [largest_contour], -1, (255, 0, 0), 3)
+        cv2.circle(frame, (center_x, center_y), 5, (0, 255, 0), -1)
+        return center_x, center_y, frame
+    else:
+        return None, None, frame
+
+def tfinit(model):
+    if ckcon():
+        global td
+        td = det.tflite_detector(model)
+
+def tfdet(frame):
+    if ckcon():
+        nframe = td.detect(frame)
+        return nframe
