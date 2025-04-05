@@ -23,7 +23,7 @@ def start(vb: bool=True):
     out.inf("starting new drone session")
     suc = True
     if not connect(vb): suc = False
-    if not pref(True, vb): suc = False
+    if not preflight(True, vb): suc = False
     keyboard.add_hotkey("ctrl+space", lambda: vl())
     if vb and suc: out.suc("completed drone startup")
     if vb and not suc: out.err(3)
@@ -98,27 +98,27 @@ def mr(ds=0, vb=False, led=led["n"]):
     api.single_fly_right(ds, led)
     if vb: out.suc(f"completed {ds}cm right motion with led {led}")
 
-def takeoff(vb=False, led=led["y"]):
+def vt(vb=False, led=led["y"]):
     if vb: out.inf(f"taking off with led {led}")
     api.single_fly_takeoff(led)
     if vb: out.suc(f"completed takeoff with led {led}")
 
-def land(vb=False, led=led["y"]):
+def vl(vb=False, led=led["y"]):
     if vb: out.inf(f"landing with led {led}")
     api.single_fly_touchdown(led)
     if vb: out.suc(f"completed landing with led {led}")
 
-def hover(t=0, vb=False, led=led["n"]):
+def vh(t=0, vb=False, led=led["n"]):
     if vb: out.inf(f"hovering for {t}s with led {led}")
     api.single_fly_hover_flight(t, led)
     if vb: out.suc(f"hovered for {t}s with led {led}")
 
-def ascend(ds=0, vb=False, led=led["n"]):
+def vu(ds=0, vb=False, led=led["n"]):
     if vb: out.inf(f"moving {ds}cm up with led {led}")
     api.single_fly_up(ds, led)
     if vb: out.suc(f"completed {ds}cm up motion with led {led}")
 
-def descend(ds=0, vb=False, led=led["n"]):
+def vd(ds=0, vb=False, led=led["n"]):
     if vb: out.inf(f"moving {ds}cm down with led {led}")
     api.single_fly_down(ds, led)
     if vb: out.suc(f"completed {ds}cm down motion with led {led}")
@@ -227,13 +227,10 @@ def vframe(vb=False):
 
 def vdet(frame, color):
     colors = {
-        'blue': (np.array([100, 150, 70]), np.array([140, 255, 255])),
-        'red': (np.array([0, 90, 100]), np.array([10, 255, 255])),
-        'green': (np.array([40, 100, 100]), np.array([80, 255, 255])),
-        'yellow': (np.array([20, 100, 100]), np.array([30, 255, 255])),
-        'purple': (np.array([130, 100, 100]), np.array([160, 255, 255])),
+        'blue': (np.array([100, 150, 20]), np.array([130, 255, 255])),
+        'red': (np.array([0, 150, 20]), np.array([10, 255, 255])),
+        'yellow': (np.array([25, 150, 20]), np.array([35, 255, 255])),
     }
-    if color not in colors: raise ValueError(f"Color '{color}' is not defined. Available colors: {list(colors.keys())}")
     lower_hsv, upper_hsv = colors[color]
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     mask_color = cv2.inRange(hsv, lower_hsv, upper_hsv)
