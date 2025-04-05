@@ -79,7 +79,7 @@ class tflite_detector:
                     center_x = (xmin + xmax) // 2
                     center_y = (ymin + ymax) // 2
                     object_name = self.labels[int(classes[i])]
-                    label = '%s: %d%%' % (object_name, int(scores[i]*100))
+                    label = f"{object_name} {scores[i]}% x{center_x} y{center_y}"
                     current_score = int(scores[i]*100)
                     current_detected_object = {'label':object_name,'score':scores[i]*100,'x':center_x,'y':center_y}
                     labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)
@@ -93,4 +93,4 @@ class tflite_detector:
                         highest_score_obj = current_detected_object
         else:
             cv2.putText(frame_cv2, "tflite logo detection", (self.vid_width -200, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0) , 1)
-        return highest_score_obj, frame_cv2 
+        return highest_score_obj, frame_cv2
