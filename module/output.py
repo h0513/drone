@@ -9,7 +9,7 @@ success: str = green + "[success]" + white
 info: str = blue + "[info]" + white
 normal: str = white + "[normal]" + white
 
-errors: list[str] = [
+errors = [
     "g-0 special error",
     "g-1 connection to drone failed [func: ckcon()]",
     "b-2 drone battery level less than 10 [func: pref()]",
