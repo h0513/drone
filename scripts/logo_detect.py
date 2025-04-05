@@ -8,14 +8,14 @@ import time
 d.start()
 d.vinit()
 d.von()
-d.vrec("photo")
-d.tfinit(model="path/model1.tflite", label="path/label.txt")
+d.vrec()
+d.tfinit(model="path/model3.tflite", label="path/label.txt")
  
 time.sleep(2)
 for i in range(100):
     frame = d.vframe()
     dframe = d.tfdet(frame)
-    cv.imshow("Ball Detection", dframe[1])
+    cv.imshow("logo detection", dframe[1])
     cv.waitKey(1)
     time.sleep(0.5)
  
