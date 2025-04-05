@@ -19,4 +19,4 @@ for i in range(100):
  
 cv.destroyAllWindows()
 d.vstop()
-d.vc()
+d.vclose()
