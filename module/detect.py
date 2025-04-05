@@ -251,6 +251,8 @@ def vdet(frame, color):
 
 def tfinit(model, label):
     global td
+    if model[:5] == "path/":
+        model = r"C:/Users/34/Desktop/drone/model/" + model[5:]
     td = det.tflite_detector(model=model, label=label)
 
 def tfdet(frame):
