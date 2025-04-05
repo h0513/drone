@@ -1,8 +1,4 @@
-import module
-import drone as d
-import output as o
-import time
-
-d.start()
-d.ll("y")
-
+import pyhula as p
+a = p.UserApi()
+a.single_fly_takeoff()
+a.single_fly_touchdown()
