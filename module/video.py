@@ -166,3 +166,4 @@ class hula_video:
             cv2.destroyWindow('Video')
         self.uapi.Plane_cmd_swith_rtp(1)
         out.suc('video stream closed')
+ 
