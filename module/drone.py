@@ -2,8 +2,9 @@ import pyhula as hula
 import output as out
 import video as vid
 import keyboard
+from typing import Dict, Union, List
 
-led = {
+led: Dict[str, Dict[str, int]] = {
     "n": {'g': 0, 'b': 0, 'r': 0, 'mode': 1}, # null
     "g": {'g': 0, 'b': 0, 'r': 255, 'mode': 1}, # green
     "c": {'g': 255, 'b': 0, 'r': 255, 'mode': 1}, # cyan
@@ -13,9 +14,9 @@ led = {
     "y": {'g': 0, 'b': 255, 'r': 255, 'mode': 1}, # yellow
     "w": {'g': 255, 'b': 255, 'r': 255, 'mode': 1} # white
 }
-ppref = False
+PPREF: bool = False
 
-def start(vb=True):
+def start(vb: bool=True):
     print()
     out.inf("starting new drone session")
     if vb: out.inf("starting drone")
@@ -27,7 +28,7 @@ def start(vb=True):
     keyboard.add_hotkey("ctrl+space", lambda: vl())
     return 0
 
-def connect(vb=True):
+def connect(vb: bool=True):
     if vb: out.inf("initiating connection to drone")
     global api
     api = hula.UserApi()
@@ -37,7 +38,7 @@ def connect(vb=True):
         return 1
     else: return 0
 
-def ckcon(ins=False, vb=False):
+def ckcon(ins: bool=False, vb: bool=False):
     if not "api" in globals():
         if vb: out.err(5)
         connect()
@@ -46,7 +47,7 @@ def ckcon(ins=False, vb=False):
         global pcon
         pcon = False
         if vb: out.suc("completed pcon variable global definition")
-    if pcon == True and not ins:
+    if globals()["pcon"] == True and not ins:
         if vb: out.suc("completed drone connection using pcon")
         return 1
     if not api.connect():
@@ -62,7 +63,7 @@ def pref(ins=True, vb=True):
     if not ckcon():
         return 0
     if vb: out.inf("conducting preflight check")
-    if not ins and ppref:
+    if not ins and PPREF:
         if vb: out.suc("completed preflight check using ppref")
         return 0
     else:
@@ -72,7 +73,7 @@ def pref(ins=True, vb=True):
         elif (bat < 20): out.err(3)
         else: suc = True
         if vb: out.suc(f"preflight check completed [battery: {bat}]")
-        ppref = True
+        PPREF = True
         if suc: return 1
         else: return 0
 

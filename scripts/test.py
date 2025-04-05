@@ -1,5 +1,5 @@
 import module
-import drone as d 
+from ..module import drone as d
 import time as t
 import keyboard as k
 
