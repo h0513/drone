@@ -9,7 +9,7 @@ d.start()
 d.vinit()
 d.von()
 d.vrec("photo")
-d.tfinit(model=r"C:\Users\34\Desktop\python\module\model1.tflite", label=r"C:\Users\34\Desktop\python\module\label.txt")
+d.tfinit(model=r"C:\Users\34\Desktop\python\model\model1.tflite", label=r"C:\Users\34\Desktop\python\model\label.txt")
  
 time.sleep(2)
 for i in range(100):
