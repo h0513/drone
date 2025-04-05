@@ -1,15 +1,15 @@
-pctxt: str = "\033[95m"
-rctxt: str = "\033[91m"
-gctxt: str = "\033[92m"
-bctxt: str = "\033[94m"
-retxt: str = "\033[0m"
-oftxt: str = pctxt + "[output]" + retxt
-eftxt: str = rctxt + "[error]" + retxt
-sftxt: str = gctxt + "[success]" + retxt
-iftxt: str = bctxt + "[info]" + retxt
-nftxt: str = retxt + "[normal]" + retxt
- 
-errc: list[str] = [
+purple: str = "\033[95m"
+red: str = "\033[91m"
+green: str = "\033[92m"
+blue: str = "\033[94m"
+white: str = "\033[0m"
+output: str = purple + "[output]" + white
+error: str = red + "[error]" + white
+success: str = green + "[success]" + white
+info: str = blue + "[info]" + white
+normal: str = white + "[normal]" + white
+
+errors: list[str] = [
     "g-0 special error",
     "g-1 connection to drone failed [func: ckcon()]",
     "b-2 drone battery level less than 10 [func: pref()]",
@@ -19,23 +19,24 @@ errc: list[str] = [
     "g-6 pcon not defined [func: ckcon()]",
     "c-7 qrcode alignment failed [func: qra()]",
     "c-8 qrcode recognition failed [func: qrr()]",
-    "c-9 qrcode tracking failed [func: qrt()]"
+    "c-9 qrcode tracking failed [func: qrt()]",
+    "tf-10 model file or label file not found [module: detect] [func: __init__]"
 ]
- 
+
 def out(info: str):
-    print(oftxt, info)
- 
+    print(output, info)
+
 def err(code: int, info="auto"):
     if info == "auto":
-        print(eftxt, errc[code])
+        print(error, errors[code])
     else:
-        print(eftxt, "SC-" + str(code) + ":", info)
- 
+        print(f"{error}, c-{code}: {info}")
+
 def suc(info: str):
-    print(sftxt, info)
- 
+    print(success, info)
+
 def inf(info: str):
-    print(iftxt, info)
- 
+    print(info, info)
+
 def nor(info: str):
-    print(nftxt, info)
+    print(normal, info)
